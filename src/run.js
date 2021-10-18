@@ -2,9 +2,9 @@ import { resolve } from "path"
 import { server } from "./server.js"
 
 const args = {
-  hostname: process.argv[2],
-  port: process.argv[3],
-  dirs: process.argv.slice(4).map((path) => resolve(path)),
+  headers: JSON.parse(process.env.HEADERS || "{}"),
+  port: process.env.PORT,
+  dirs: process.argv.slice(2).map((path) => resolve(path)),
 }
 
 // eslint-disable-next-line no-console

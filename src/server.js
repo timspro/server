@@ -1,5 +1,6 @@
 import bodyParser from "body-parser"
 import express from "express"
+import morgan from "morgan"
 import sanitize from "sanitize-filename"
 
 class PathError extends Error {}
@@ -22,10 +23,7 @@ async function route(dir, path, args) {
   const method = parts.pop()
   const relativeFilePath = parts.join("/")
   const module = await import(`${dir}/${relativeFilePath}.js`)
-  if (method) {
-    return module[method](args)
-  }
-  return module.default(args)
+  return module[method](args)
 }
 
 function sendError(response, status, message) {
@@ -35,22 +33,8 @@ function sendError(response, status, message) {
   })
 }
 
-export function server({ hostname, port, dirs, done }) {
-  const app = express()
-
-  // don't allow keep-alive requests so that the server can shutdown/restart faster
-  app.use((request, response, next) => {
-    response.set("Access-Control-Allow-Origin", hostname)
-    response.set("Connection", "close")
-    next()
-  })
-
-  app.use(bodyParser.urlencoded({ extended: false }))
-
-  app.use(bodyParser.json())
-
-  // dynamically route other requests to "routes" folder
-  app.use(async (request, response) => {
+function handle(dirs) {
+  return async (request, response) => {
     const { query, body } = request
     let found = false
     for (const dir of dirs) {
@@ -73,7 +57,30 @@ export function server({ hostname, port, dirs, done }) {
     if (!found) {
       sendError(response, 404, `could not find path: ${request.path}`)
     }
+  }
+}
+
+export function server({ headers, port, dirs, done }) {
+  const app = express()
+
+  app.use((request, response, next) => {
+    response.set(headers)
+
+    if (request.method === "OPTIONS") {
+      response.send(200)
+    } else {
+      next()
+    }
   })
+
+  app.use(morgan(":date[iso] :method :url :status :res[content-length] - :response-time ms"))
+
+  app.use(bodyParser.urlencoded({ extended: false }))
+
+  app.use(bodyParser.json())
+
+  // dynamically route other requests to "routes" folder
+  app.use(handle(dirs))
 
   // send errors as json
   // eslint-disable-next-line no-unused-vars

@@ -1,6 +1,6 @@
 {
   "name": "@tim-code/server",
-  "version": "0.0.5",
+  "version": "0.0.10",
   "description": "",
   "main": "./lib/server.cjs",
   "exports": {
@@ -31,6 +31,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^5.0.0-alpha.8",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.13",
     "sanitize-filename": "^1.6.3"
   },
