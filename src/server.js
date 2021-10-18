@@ -33,7 +33,8 @@ async function route(dir, path, args, forbid) {
 function sendError(response, status, message) {
   response.status(status).send({
     success: false,
-    error: { code: status, message },
+    code: status,
+    error: message,
   })
 }
 
@@ -47,7 +48,7 @@ function handle(dirs, forbid) {
         const args = { ...body, ...query }
         // eslint-disable-next-line no-await-in-loop
         const result = await route(dir, path, args, forbid)
-        response.json({ success: true, result })
+        response.json({ success: true, code: 200, result })
         found = true
       } catch (error) {
         if (error instanceof PathError) {

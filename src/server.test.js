@@ -15,34 +15,45 @@ afterAll((done) => {
 const host = `http://localhost:${port}`
 
 autotestGet(`${host}/subdir/ping/ping`)()({
-  result: "ping",
+  code: 200,
   success: true,
+  result: "ping",
 })
 
-autotestGet(`${host}/unknown`, { name: "error unknown" })()({
-  success: false,
-  error: expect.objectContaining({ code: 404 }),
-})
+autotestGet(`${host}/unknown`, { name: "error unknown" })()(
+  expect.objectContaining({
+    success: false,
+    code: 404,
+  })
+)
 
-autotestGet(`${host}/..`, { name: "error invalid" })()({
-  success: false,
-  error: expect.objectContaining({ code: 400 }),
-})
-autotestGet(host, { name: "error root" })()({
-  success: false,
-  error: expect.objectContaining({ code: 400 }),
-})
-autotestGet(`${host}/helper`, { name: "error unknown" })()({
-  success: false,
-  error: expect.objectContaining({ code: 400 }),
-})
+autotestGet(`${host}/..`, { name: "error invalid" })()(
+  expect.objectContaining({
+    success: false,
+    code: 400,
+  })
+)
+autotestGet(host, { name: "error root" })()(
+  expect.objectContaining({
+    success: false,
+    code: 400,
+  })
+)
+autotestGet(`${host}/helper`, { name: "error unknown" })()(
+  expect.objectContaining({
+    success: false,
+    code: 400,
+  })
+)
 
 const sameString = "test"
 autotestGet(`${host}/subdir/ping/same`, { name: "get same" })({ input: sameString })({
+  code: 200,
   success: true,
   result: sameString,
 })
 autotestPost(`${host}/subdir/ping/same`, { name: "post same" })({ input: sameString })({
+  code: 200,
   success: true,
   result: sameString,
 })
