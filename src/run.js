@@ -4,6 +4,7 @@ import { server } from "./server.js"
 const args = {
   headers: JSON.parse(process.env.HEADERS || "{}"),
   port: process.env.PORT,
+  forbid: process.env.FORBID || "_.*",
   dirs: process.argv.slice(2).map((path) => resolve(path)),
 }
 

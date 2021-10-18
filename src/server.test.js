@@ -6,7 +6,7 @@ const port = 8089
 
 let remote
 beforeAll((done) => {
-  remote = server({ dirs: [`${projectDir}/test/routes`], port, done })
+  remote = server({ dirs: [`${projectDir}/test/routes`], port, done, forbid: "helper" })
 })
 afterAll((done) => {
   remote.close(done)
@@ -29,6 +29,10 @@ autotestGet(`${host}/..`, { name: "error invalid" })()({
   error: expect.objectContaining({ code: 400 }),
 })
 autotestGet(host, { name: "error root" })()({
+  success: false,
+  error: expect.objectContaining({ code: 400 }),
+})
+autotestGet(`${host}/helper`, { name: "error unknown" })()({
   success: false,
   error: expect.objectContaining({ code: 400 }),
 })

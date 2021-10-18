@@ -5,7 +5,8 @@ import sanitize from "sanitize-filename"
 
 class PathError extends Error {}
 
-function validate(path) {
+function validate(path, forbid) {
+  const matcher = new RegExp(forbid, "mu")
   const segments = path.split("/")
   for (const [index, segment] of segments.entries()) {
     if (!segment) {
@@ -14,11 +15,14 @@ function validate(path) {
     if (segment !== sanitize(segment)) {
       throw new PathError(`path segment at index ${index} is invalid`)
     }
+    if (forbid && matcher.test(segment)) {
+      throw new PathError(`path segment at index ${index} is forbidden`)
+    }
   }
 }
 
-async function route(dir, path, args) {
-  validate(path)
+async function route(dir, path, args, forbid) {
+  validate(path, forbid)
   const parts = path.split("/")
   const method = parts.pop()
   const relativeFilePath = parts.join("/")
@@ -33,7 +37,7 @@ function sendError(response, status, message) {
   })
 }
 
-function handle(dirs) {
+function handle(dirs, forbid) {
   return async (request, response) => {
     const { query, body } = request
     let found = false
@@ -42,7 +46,7 @@ function handle(dirs) {
         const path = request.path.slice(1)
         const args = { ...body, ...query }
         // eslint-disable-next-line no-await-in-loop
-        const result = await route(dir, path, args)
+        const result = await route(dir, path, args, forbid)
         response.json({ success: true, result })
         found = true
       } catch (error) {
@@ -60,7 +64,7 @@ function handle(dirs) {
   }
 }
 
-export function server({ headers, port, dirs, done }) {
+export function server({ headers, port, dirs, done, forbid }) {
   const app = express()
 
   app.use((request, response, next) => {
@@ -80,7 +84,7 @@ export function server({ headers, port, dirs, done }) {
   app.use(bodyParser.json())
 
   // dynamically route other requests to "routes" folder
-  app.use(handle(dirs))
+  app.use(handle(dirs, forbid))
 
   // send errors as json
   // eslint-disable-next-line no-unused-vars
