@@ -21,7 +21,7 @@ async function route(dir, path, args) {
   const parts = path.split("/")
   const method = parts.pop()
   const relativeFilePath = parts.join("/")
-  const module = await import(`${dir}/${relativeFilePath}`)
+  const module = await import(`${dir}/${relativeFilePath}.js`)
   if (method) {
     return module[method](args)
   }

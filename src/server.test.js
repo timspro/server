@@ -2,15 +2,17 @@ import { autotestGet, autotestPost } from "@tim-code/autotest"
 import { projectDir } from "./directory.js"
 import { server } from "./server.js"
 
+const port = 8089
+
 let remote
 beforeAll((done) => {
-  remote = server({ dirs: [`${projectDir}/test/routes`], port: 8080, done })
+  remote = server({ dirs: [`${projectDir}/test/routes`], port, done })
 })
 afterAll((done) => {
   remote.close(done)
 })
 
-const host = "http://localhost:8080"
+const host = `http://localhost:${port}`
 
 autotestGet(`${host}/subdir/ping/ping`)()({
   result: "ping",
