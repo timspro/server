@@ -19,12 +19,16 @@ autotestGet(`${host}/subdir/ping/ping`)()({
   success: true,
 })
 
-autotestGet(`${host}/unknown`)()({
+autotestGet(`${host}/unknown`, { name: "error unknown" })()({
   success: false,
   error: expect.objectContaining({ code: 404 }),
 })
 
 autotestGet(`${host}/..`, { name: "error invalid" })()({
+  success: false,
+  error: expect.objectContaining({ code: 400 }),
+})
+autotestGet(host, { name: "error root" })()({
   success: false,
   error: expect.objectContaining({ code: 400 }),
 })
