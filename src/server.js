@@ -40,7 +40,7 @@ function handle(dirs) {
     for (const dir of dirs) {
       try {
         const path = request.path.slice(1)
-        const args = { ...body, ...query, dir }
+        const args = { ...body, ...query }
         // eslint-disable-next-line no-await-in-loop
         const result = await route(dir, path, args)
         response.json({ success: true, result })

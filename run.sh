@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
+
+# set -x
+
 SCRIPT=$(readlink -f "$0")
-DIR=$(dirname "$SCRIPT")
+SCRIPT_DIR=$(dirname "$SCRIPT")
 
 WATCHED=()
-for dir in $@; do
-  WATCHED+="--watch \"$dir\""
+for DIR in $@; do
+  ABSOLUTE=$(readlink -f "$DIR")
+  WATCHED+="--watch $ABSOLUTE"
 done
 
-node_modules/.bin/nodemon $WATCHED "$DIR/src/run.js" "$@"
+node_modules/.bin/nodemon $WATCHED "$SCRIPT_DIR/src/run.js" "$@"
