@@ -11,4 +11,10 @@ for DIR in $@; do
   WATCHED+="--watch $ABSOLUTE"
 done
 
-node_modules/.bin/nodemon $WATCHED "$SCRIPT_DIR/src/run.js" "$@"
+if [[ -v INSPECT ]]; then
+  INSPECTED="--inspect"
+else
+  INSPECTED=""
+fi
+
+node_modules/.bin/nodemon $INSPECTED $WATCHED "$SCRIPT_DIR/src/run.js" "$@"
