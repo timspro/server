@@ -6,6 +6,7 @@ const args = {
   port: process.env.PORT,
   forbid: process.env.FORBID || "_.*",
   dirs: process.argv.slice(2).map((path) => resolve(path)),
+  log: Boolean(process.env.LOG),
 }
 
 // eslint-disable-next-line no-console

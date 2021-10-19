@@ -65,7 +65,7 @@ function handle(dirs, forbid) {
   }
 }
 
-export function server({ headers, port, dirs, done, forbid }) {
+export function server({ headers, port, dirs, done, forbid, log }) {
   const app = express()
 
   app.use((request, response, next) => {
@@ -78,7 +78,9 @@ export function server({ headers, port, dirs, done, forbid }) {
     }
   })
 
-  app.use(morgan(":date[iso] :method :url :status :res[content-length] - :response-time ms"))
+  if (log) {
+    app.use(morgan(":date[iso] :method :url :status :res[content-length] - :response-time ms"))
+  }
 
   app.use(bodyParser.urlencoded({ extended: false }))
 
