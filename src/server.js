@@ -23,8 +23,8 @@ function validate(path, forbid) {
 }
 
 async function route(dir, path, args, forbid) {
-  if (!path) {
-    // an empty path probably corresponds to a request for index.html in the static folder
+  if (!path || !path.includes("/")) {
+    // an empty or single path probably corresponds to a request for the static folder
     // otherwise would be a path error
     const error = new Error()
     error.code = "MODULE_NOT_FOUND"

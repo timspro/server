@@ -31,15 +31,21 @@ autotestGet(`${host}/unknown`, { name: "error unknown" })()(
     code: 404,
   })
 )
+autotestGet(`${host}/unknown/unknown`, { name: "error unknown unknown" })()(
+  expect.objectContaining({
+    success: false,
+    code: 404,
+  })
+)
 
 // express seems to do some coercion on path: "." and ".." are removed
-autotestGet(`${host}/...`, { name: "error invalid" })()(
+autotestGet(`${host}/*/test`, { name: "error invalid" })()(
   expect.objectContaining({
     success: false,
     code: 400,
   })
 )
-autotestGet(`${host}/helper`, { name: "error unknown" })()(
+autotestGet(`${host}/helper/method`, { name: "error forbidden" })()(
   expect.objectContaining({
     success: false,
     code: 400,
