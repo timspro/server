@@ -1,6 +1,7 @@
 import bodyParser from "body-parser"
 import express from "express"
 import morgan from "morgan"
+import { resolve } from "path"
 import sanitize from "sanitize-filename"
 
 class PathError extends Error {}
@@ -26,7 +27,7 @@ async function route(dir, path, args, forbid) {
   const parts = path.split("/")
   const method = parts.pop()
   const relativeFilePath = parts.join("/")
-  const module = await import(`${dir}/${relativeFilePath}.js`)
+  const module = await import(resolve(dir, `${relativeFilePath}.js`))
   return module[method](args)
 }
 
@@ -58,7 +59,15 @@ function handle(dir, forbid) {
   }
 }
 
-export function server({ headers, port, dir, done, log, static: staticDir, forbid = "^_.*" }) {
+export function server({
+  headers,
+  port,
+  done,
+  log,
+  dir = ".",
+  static: staticDir,
+  forbid = "^_.*",
+}) {
   const app = express()
 
   app.use((request, response, next) => {

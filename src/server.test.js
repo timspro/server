@@ -1,5 +1,4 @@
 import { autotestGet, autotestHtml, autotestPost } from "@tim-code/autotest"
-import { projectDir } from "@tim-code/project-dir"
 import { server } from "./server.js"
 
 const port = 8089
@@ -7,11 +6,11 @@ const port = 8089
 let remote
 beforeAll((done) => {
   remote = server({
-    dir: `${projectDir}/test/routes`,
+    dir: `test/routes`,
     port,
     done,
     forbid: "helper",
-    static: `${projectDir}/test/static`,
+    static: `test/static`,
   })
 })
 afterAll((done) => {
