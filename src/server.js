@@ -23,13 +23,6 @@ function validate(path, forbid) {
 }
 
 async function route(dir, path, args, forbid) {
-  if (!path || !path.includes("/")) {
-    // an empty or single path probably corresponds to a request for the static folder
-    // otherwise would be a path error
-    const error = new Error()
-    error.code = "MODULE_NOT_FOUND"
-    throw error
-  }
   validate(path, forbid)
   const parts = path.split("/")
   const method = parts.pop()
@@ -47,7 +40,7 @@ function sendError(response, status, message) {
 }
 
 function handle(dir, forbid) {
-  return async (request, response, next) => {
+  return async (request, response) => {
     const { query, body } = request
     try {
       const path = request.path.slice(1)
@@ -57,8 +50,8 @@ function handle(dir, forbid) {
     } catch (error) {
       if (error instanceof PathError) {
         sendError(response, 400, error.message)
-      } else if (error.code === "MODULE_NOT_FOUND") {
-        next()
+      } else if (error.code === "MODULE_NOT_FOUND" || error.code === "ERR_MODULE_NOT_FOUND") {
+        sendError(response, 404, `could not find path: ${request.path}`)
       } else {
         throw error
       }
@@ -94,16 +87,12 @@ export function server({
 
   app.use(bodyParser.json())
 
-  // dynamically route other requests to "routes" folder
-  app.use(handle(routes, forbid))
-
   if (staticDir) {
     app.use(express.static(staticDir, { redirect: false }))
   }
 
-  app.use((request, response) => {
-    sendError(response, 404, `could not find path: ${request.path}`)
-  })
+  // dynamically route other requests to "routes" folder
+  app.use(handle(routes, forbid))
 
   // send errors as json
   // eslint-disable-next-line no-unused-vars
