@@ -3,7 +3,7 @@ import { resolve } from "path"
 import { server } from "./server.js"
 
 const definitions = [
-  { name: "headers", alias: "h", type: JSON.stringify },
+  { name: "headers", alias: "h", type: JSON.parse },
   { name: "port", alias: "p", type: Number },
   { name: "forbid", type: String },
   { name: "log", type: Boolean },
