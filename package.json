@@ -1,6 +1,6 @@
 {
   "name": "@tim-code/server",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "",
   "main": "./lib/server.cjs",
   "exports": {
@@ -12,7 +12,6 @@
     "neptune-server": "./run.sh"
   },
   "scripts": {
-    "prepublishOnly": "babel src --out-dir lib --out-file-extension .cjs",
     "test": "node --no-warnings --experimental-vm-modules node_modules/.bin/jest",
     "test-debug": "node --inspect --no-warnings --experimental-vm-modules node_modules/.bin/jest",
     "start": "./run.sh"
@@ -20,9 +19,6 @@
   "author": "",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@babel/cli": "^7.15.7",
-    "@babel/core": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
     "@tim-code/autotest": "^0.4.5",
     "@tim-code/eslint-config": "^0.2.2",
     "jest": "^27.3.1"
@@ -34,18 +30,6 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.14",
     "sanitize-filename": "^1.6.3"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": 12
-          }
-        }
-      ]
-    ]
   },
   "jest": {
     "transform": {}
