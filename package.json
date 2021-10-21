@@ -1,12 +1,8 @@
 {
   "name": "@tim-code/server",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "",
-  "main": "./lib/server.cjs",
-  "exports": {
-    "import": "./src/server.js",
-    "require": "./lib/server.cjs"
-  },
+  "main": "./src/server.js",
   "type": "module",
   "bin": {
     "neptune-server": "./run.sh"
