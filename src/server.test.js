@@ -6,7 +6,7 @@ const port = 8089
 let remote
 beforeAll((done) => {
   remote = server({
-    dir: `test/routes`,
+    routes: `test/routes`,
     port,
     done,
     forbid: "helper",

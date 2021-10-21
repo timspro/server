@@ -64,7 +64,7 @@ export function server({
   port,
   done,
   log,
-  dir = ".",
+  routes = ".",
   static: staticDir,
   forbid = "^_.*",
 }) {
@@ -88,7 +88,7 @@ export function server({
   app.use(bodyParser.json())
 
   // dynamically route other requests to "routes" folder
-  app.use(handle(dir, forbid))
+  app.use(handle(routes, forbid))
 
   if (staticDir) {
     app.use(express.static(staticDir, { redirect: false }))

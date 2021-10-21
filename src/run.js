@@ -8,7 +8,7 @@ const definitions = [
   { name: "forbid", type: String },
   { name: "log", type: Boolean },
   { name: "static", type: resolve },
-  { name: "dir", type: resolve, defaultOption: true },
+  { name: "routes", type: resolve, defaultOption: true },
 ]
 
 const args = commandLineArgs(definitions)

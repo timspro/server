@@ -5,16 +5,14 @@
 SCRIPT=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT")
 
-WATCHED=()
-for DIR in $@; do
-  ABSOLUTE=$(readlink -f "$DIR")
-  WATCHED+="--watch $ABSOLUTE"
-done
 
 if [[ -v INSPECT ]]; then
   INSPECTED="--inspect"
 else
   INSPECTED=""
 fi
+
+ABSOLUTE=$(readlink -f "${@: -1}")
+WATCHED+="--watch \"$ABSOLUTE\""
 
 node_modules/.bin/nodemon $INSPECTED $WATCHED "$SCRIPT_DIR/src/run.js" "$@"
