@@ -32,13 +32,8 @@ autotestGet(`${host}/unknown`, { name: "error unknown" })()(
   })
 )
 
-autotestGet(`${host}/..`, { name: "error invalid" })()(
-  expect.objectContaining({
-    success: false,
-    code: 400,
-  })
-)
-autotestGet(host, { name: "error root" })()(
+// express seems to do some coercion on path: "." and ".." are removed
+autotestGet(`${host}/...`, { name: "error invalid" })()(
   expect.objectContaining({
     success: false,
     code: 400,
@@ -64,3 +59,4 @@ autotestPost(`${host}/subdir/ping/same`, { name: "post same" })({ input: sameStr
 })
 
 autotestHtml(`${host}/index.html`)()("test\n")
+autotestHtml(host)()("test\n")
