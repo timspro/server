@@ -1,5 +1,5 @@
 import { autotestGet, autotestPost } from "@tim-code/autotest"
-import { projectDir } from "./directory.js"
+import { projectDir } from "@tim-code/project-dir"
 import { server } from "./server.js"
 
 const port = 8089
