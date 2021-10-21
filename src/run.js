@@ -1,13 +1,17 @@
+import commandLineArgs from "command-line-args"
 import { resolve } from "path"
 import { server } from "./server.js"
 
-const args = {
-  headers: JSON.parse(process.env.HEADERS || "{}"),
-  port: process.env.PORT,
-  forbid: process.env.FORBID || "^_.*",
-  dirs: process.argv.slice(2).map((path) => resolve(path)),
-  log: Boolean(process.env.LOG),
-}
+const definitions = [
+  { name: "headers", alias: "h", type: JSON.stringify },
+  { name: "port", alias: "p", type: Number },
+  { name: "forbid", type: String },
+  { name: "log", type: Boolean },
+  { name: "static", type: resolve },
+  { name: "dir", type: resolve, defaultOption: true },
+]
+
+const args = commandLineArgs(definitions)
 
 // eslint-disable-next-line no-console
 console.log("starting server with: ", args)

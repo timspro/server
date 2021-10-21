@@ -38,39 +38,31 @@ function sendError(response, status, message) {
   })
 }
 
-function handle(dirs, forbid) {
-  return async (request, response) => {
+function handle(dir, forbid) {
+  return async (request, response, next) => {
     const { query, body } = request
-    let found = false
-    for (const dir of dirs) {
-      try {
-        const path = request.path.slice(1)
-        const args = { ...body, ...query }
-        // eslint-disable-next-line no-await-in-loop
-        const result = await route(dir, path, args, forbid)
-        response.json({ success: true, code: 200, result })
-        found = true
-      } catch (error) {
-        if (error instanceof PathError) {
-          sendError(response, 400, error.message)
-          return
-        } else if (error.code !== "MODULE_NOT_FOUND") {
-          throw error
-        }
+    try {
+      const path = request.path.slice(1)
+      const args = { ...body, ...query }
+      const result = await route(dir, path, args, forbid)
+      response.json({ success: true, code: 200, result })
+    } catch (error) {
+      if (error instanceof PathError) {
+        sendError(response, 400, error.message)
+      } else if (error.code === "MODULE_NOT_FOUND") {
+        next()
+      } else {
+        throw error
       }
-    }
-    if (!found) {
-      sendError(response, 404, `could not find path: ${request.path}`)
     }
   }
 }
 
-export function server({ headers, port, dirs, done, forbid, log }) {
+export function server({ headers, port, dir, done, log, static: staticDir, forbid = "^_.*" }) {
   const app = express()
 
   app.use((request, response, next) => {
     response.set(headers)
-
     if (request.method === "OPTIONS") {
       response.send(200)
     } else {
@@ -87,7 +79,15 @@ export function server({ headers, port, dirs, done, forbid, log }) {
   app.use(bodyParser.json())
 
   // dynamically route other requests to "routes" folder
-  app.use(handle(dirs, forbid))
+  app.use(handle(dir, forbid))
+
+  if (staticDir) {
+    app.use(express.static(staticDir, { redirect: false }))
+  }
+
+  app.use((request, response) => {
+    sendError(response, 404, `could not find path: ${request.path}`)
+  })
 
   // send errors as json
   // eslint-disable-next-line no-unused-vars

@@ -1,4 +1,4 @@
-import { autotestGet, autotestPost } from "@tim-code/autotest"
+import { autotestGet, autotestHtml, autotestPost } from "@tim-code/autotest"
 import { projectDir } from "@tim-code/project-dir"
 import { server } from "./server.js"
 
@@ -6,7 +6,13 @@ const port = 8089
 
 let remote
 beforeAll((done) => {
-  remote = server({ dirs: [`${projectDir}/test/routes`], port, done, forbid: "helper" })
+  remote = server({
+    dir: `${projectDir}/test/routes`,
+    port,
+    done,
+    forbid: "helper",
+    static: `${projectDir}/test/static`,
+  })
 })
 afterAll((done) => {
   remote.close(done)
@@ -57,3 +63,5 @@ autotestPost(`${host}/subdir/ping/same`, { name: "post same" })({ input: sameStr
   success: true,
   result: sameString,
 })
+
+autotestHtml(`${host}/index.html`)()("test\n")
