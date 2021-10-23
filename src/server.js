@@ -59,6 +59,17 @@ function handle(dir, forbid) {
   }
 }
 
+function handleHeaders(headers) {
+  return (request, response, next) => {
+    response.set(headers)
+    if (request.method === "OPTIONS") {
+      response.send(200)
+    } else {
+      next()
+    }
+  }
+}
+
 export function server({
   headers,
   port,
@@ -70,14 +81,7 @@ export function server({
 }) {
   const app = express()
 
-  app.use((request, response, next) => {
-    response.set(headers)
-    if (request.method === "OPTIONS") {
-      response.send(200)
-    } else {
-      next()
-    }
-  })
+  app.use(handleHeaders(headers))
 
   if (log) {
     app.use(morgan(":date[iso] :method :url :status :res[content-length] - :response-time ms"))
@@ -101,5 +105,12 @@ export function server({
     sendError(response, 500, error.message)
   })
 
-  return app.listen(port, done)
+  const result = app.listen(port, () => {
+    if (log) {
+      // eslint-disable-next-line no-console
+      console.log(`server listening on port: ${result.address().port}`)
+    }
+    done()
+  })
+  return result
 }
