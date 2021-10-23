@@ -110,7 +110,9 @@ export function server({
       // eslint-disable-next-line no-console
       console.log(`server listening on port: ${result.address().port}`)
     }
-    done()
+    if (done) {
+      done()
+    }
   })
   return result
 }
