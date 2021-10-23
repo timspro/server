@@ -15,4 +15,4 @@ fi
 ABSOLUTE=$(readlink -f "${@: -1}")
 WATCHED+="--watch \"$ABSOLUTE\""
 
-node_modules/.bin/nodemon $INSPECTED $WATCHED "$SCRIPT_DIR/src/run.js" "$@"
+exec node_modules/.bin/nodemon $INSPECTED $WATCHED "$SCRIPT_DIR/src/run.js" "$@"
