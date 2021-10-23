@@ -7,17 +7,20 @@ import sanitize from "sanitize-filename"
 class PathError extends Error {}
 
 function validate(path, forbid) {
+  if (!path) {
+    throw new PathError(`route path is empty`)
+  }
   const matcher = new RegExp(forbid, "mu")
   const segments = path.split("/")
   for (const [index, segment] of segments.entries()) {
     if (!segment) {
-      throw new PathError(`path segment at index ${index} is empty`)
+      throw new PathError(`route path segment at index ${index} is empty`)
     }
     if (segment !== sanitize(segment)) {
-      throw new PathError(`path segment at index ${index} is invalid`)
+      throw new PathError(`route path segment at index ${index} is invalid`)
     }
     if (forbid && matcher.test(segment)) {
-      throw new PathError(`path segment at index ${index} is forbidden`)
+      throw new PathError(`route path segment at index ${index} is forbidden`)
     }
   }
 }
