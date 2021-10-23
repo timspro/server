@@ -39,7 +39,7 @@ function sendError(response, status, message) {
   })
 }
 
-function handle(dir, forbid) {
+function handleRequest(dir, forbid) {
   return async (request, response) => {
     const { query, body } = request
     try {
@@ -96,7 +96,7 @@ export function server({
   }
 
   // dynamically route other requests to "routes" folder
-  app.use(handle(routes, forbid))
+  app.use(handleRequest(routes, forbid))
 
   // send errors as json
   // eslint-disable-next-line no-unused-vars
@@ -106,7 +106,7 @@ export function server({
   })
 
   const result = app.listen(port, () => {
-    if (log) {
+    if (log && !port) {
       // eslint-disable-next-line no-console
       console.log(`server listening on port: ${result.address().port}`)
     }
