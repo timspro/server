@@ -24,19 +24,19 @@ afterAll((done) => {
 
 const host = `http://localhost:${port}`
 
-autotest(json.get, { name: "ping" })(`${host}/subdir/ping/ping`)({
+autotest(json.request, { name: "ping" })(`${host}/subdir/ping/ping`)({
   code: 200,
   success: true,
   result: "ping",
 })
 
-autotest(json.get, { name: "error unknown" })(`${host}/unknown`, {}, onError)(
+autotest(json.request, { name: "error unknown" })(`${host}/unknown`, onError)(
   expect.objectContaining({
     success: false,
     code: 404,
   })
 )
-autotest(json.get, { name: "error unknown unknown" })(`${host}/unknown/unknown`, {}, onError)(
+autotest(json.request, { name: "error unknown unknown" })(`${host}/unknown/unknown`, onError)(
   expect.objectContaining({
     success: false,
     code: 404,
@@ -44,13 +44,13 @@ autotest(json.get, { name: "error unknown unknown" })(`${host}/unknown/unknown`,
 )
 
 // express seems to do some coercion on path: "." and ".." are removed
-autotest(json.get, { name: "error invalid" })(`${host}/*/test`, {}, onError)(
+autotest(json.request, { name: "error invalid" })(`${host}/*/test`, onError)(
   expect.objectContaining({
     success: false,
     code: 400,
   })
 )
-autotest(json.get, { name: "error forbidden" })(`${host}/helper/method`, {}, onError)(
+autotest(json.request, { name: "error forbidden" })(`${host}/helper/method`, onError)(
   expect.objectContaining({
     success: false,
     code: 400,
@@ -69,5 +69,5 @@ autotest(json.post, { name: "post same" })(`${host}/subdir/ping/same`, { input: 
   result: sameString,
 })
 
-autotest(json.get)(`${host}/index.html`, {}, { raw: true })("test\n")
-autotest(json.get)(host, {}, { raw: true })("test\n")
+autotest(json.request, { name: "index.html" })(`${host}/index.html`, { raw: true })("test\n")
+autotest(json.request, { name: "/" })(host, { raw: true })("test\n")
