@@ -1,6 +1,6 @@
 {
   "name": "@tim-code/server",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "description": "",
   "main": "./src/server.js",
   "type": "module",
@@ -14,9 +14,9 @@
   "author": "",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@tim-code/autotest": "^0.4.5",
+    "@tim-code/autotest": "^0.8.1",
     "@tim-code/eslint-config": "^0.2.2",
-    "@tim-code/json-fetch": "^0.3.0",
+    "@tim-code/json-fetch": "^0.3.2",
     "jest": "^27.3.1",
     "node-fetch": "^3.0.0"
   },
