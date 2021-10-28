@@ -1,6 +1,6 @@
 {
   "name": "@tim-code/server",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "",
   "main": "./src/server.js",
   "type": "module",
@@ -16,7 +16,9 @@
   "devDependencies": {
     "@tim-code/autotest": "^0.4.5",
     "@tim-code/eslint-config": "^0.2.2",
-    "jest": "^27.3.1"
+    "@tim-code/json-fetch": "^0.3.0",
+    "jest": "^27.3.1",
+    "node-fetch": "^3.0.0"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

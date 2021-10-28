@@ -1,5 +1,10 @@
-import { autotestGet, autotestHtml, autotestPost } from "@tim-code/autotest"
+import { autotest } from "@tim-code/autotest"
+import * as json from "@tim-code/json-fetch"
+import fetch from "node-fetch"
 import { server } from "./server.js"
+
+global.fetch = fetch
+const onError = { onError: ({ result }) => result }
 
 const port = 8089
 
@@ -19,19 +24,19 @@ afterAll((done) => {
 
 const host = `http://localhost:${port}`
 
-autotestGet(`${host}/subdir/ping/ping`)()({
+autotest(json.get, { name: "ping" })(`${host}/subdir/ping/ping`)({
   code: 200,
   success: true,
   result: "ping",
 })
 
-autotestGet(`${host}/unknown`, { name: "error unknown" })()(
+autotest(json.get, { name: "error unknown" })(`${host}/unknown`, {}, onError)(
   expect.objectContaining({
     success: false,
     code: 404,
   })
 )
-autotestGet(`${host}/unknown/unknown`, { name: "error unknown unknown" })()(
+autotest(json.get, { name: "error unknown unknown" })(`${host}/unknown/unknown`, {}, onError)(
   expect.objectContaining({
     success: false,
     code: 404,
@@ -39,13 +44,13 @@ autotestGet(`${host}/unknown/unknown`, { name: "error unknown unknown" })()(
 )
 
 // express seems to do some coercion on path: "." and ".." are removed
-autotestGet(`${host}/*/test`, { name: "error invalid" })()(
+autotest(json.get, { name: "error invalid" })(`${host}/*/test`, {}, onError)(
   expect.objectContaining({
     success: false,
     code: 400,
   })
 )
-autotestGet(`${host}/helper/method`, { name: "error forbidden" })()(
+autotest(json.get, { name: "error forbidden" })(`${host}/helper/method`, {}, onError)(
   expect.objectContaining({
     success: false,
     code: 400,
@@ -53,16 +58,16 @@ autotestGet(`${host}/helper/method`, { name: "error forbidden" })()(
 )
 
 const sameString = "test"
-autotestGet(`${host}/subdir/ping/same`, { name: "get same" })({ input: sameString })({
+autotest(json.get, { name: "get same" })(`${host}/subdir/ping/same`, { input: sameString })({
   code: 200,
   success: true,
   result: sameString,
 })
-autotestPost(`${host}/subdir/ping/same`, { name: "post same" })({ input: sameString })({
+autotest(json.post, { name: "post same" })(`${host}/subdir/ping/same`, { input: sameString })({
   code: 200,
   success: true,
   result: sameString,
 })
 
-autotestHtml(`${host}/index.html`)()("test\n")
-autotestHtml(host)()("test\n")
+autotest(json.get)(`${host}/index.html`, {}, { raw: true })("test\n")
+autotest(json.get)(host, {}, { raw: true })("test\n")
