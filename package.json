@@ -15,8 +15,8 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@tim-code/autotest": "^0.8.2",
-    "@tim-code/eslint-config": "^0.2.2",
-    "@tim-code/json-fetch": "^0.3.2",
+    "@tim-code/eslint-config": "^0.5.5",
+    "@tim-code/json-fetch": "^0.3.5",
     "jest": "^27.3.1",
     "node-fetch": "^3.0.0"
   },
@@ -33,12 +33,7 @@
   },
   "eslintConfig": {
     "extends": "@tim-code",
-    "root": true,
-    "env": {
-      "node": true,
-      "jest": true
-    },
-    "ignorePatterns": "lib"
+    "root": true
   },
   "publishConfig": {
     "access": "public"
