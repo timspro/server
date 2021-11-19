@@ -81,6 +81,7 @@ export function server({
   routes = ".",
   static: staticDir,
   forbid = "^_.*",
+  postSize,
 }) {
   const app = express()
 
@@ -90,9 +91,9 @@ export function server({
     app.use(morgan(":date[iso] :method :url :status :res[content-length] - :response-time ms"))
   }
 
-  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.urlencoded({ limit: postSize, extended: false }))
 
-  app.use(bodyParser.json())
+  app.use(bodyParser.json({ limit: postSize }))
 
   if (staticDir) {
     app.use(express.static(staticDir, { redirect: false }))

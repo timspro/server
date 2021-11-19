@@ -9,6 +9,7 @@ const definitions = [
   { name: "log", type: Boolean },
   { name: "static", type: resolve },
   { name: "routes", type: resolve, defaultOption: true },
+  { name: "postSize", type: String },
 ]
 
 const args = commandLineArgs(definitions)
