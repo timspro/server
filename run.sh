@@ -2,8 +2,14 @@
 
 # set -x
 
-SCRIPT=$(readlink -f "$0")
-SCRIPT_DIR=$(dirname "$SCRIPT")
+# https://stackoverflow.com/questions/59895/how-can-i-get-the-source-directory-of-a-bash-script-from-within-the-script-itsel
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 ARG_ARRAY=("$@") 
 for INDEX in "${!ARG_ARRAY[@]}"; do
