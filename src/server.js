@@ -100,7 +100,9 @@ export function server({
   }
 
   // dynamically route other requests to "routes" folder
-  app.use(handleRequest(routes, forbid))
+  if (routes) {
+    app.use(handleRequest(routes, forbid))
+  }
 
   // send errors as json
   // eslint-disable-next-line no-unused-vars
