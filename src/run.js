@@ -2,17 +2,15 @@ import commandLineArgs from "command-line-args"
 import { resolve } from "path"
 import { server } from "./server.js"
 
-const definitions = [
+const args = commandLineArgs([
   { name: "headers", alias: "h", type: JSON.parse },
   { name: "port", alias: "p", type: Number },
   { name: "forbid", type: String },
   { name: "log", type: Boolean },
-  { name: "static", type: resolve },
+  { name: "frontend", type: resolve },
   { name: "routes", type: resolve, defaultOption: true },
   { name: "postSize", type: String },
-]
-
-const args = commandLineArgs(definitions)
+])
 
 // eslint-disable-next-line no-console
 console.log("starting server with: ", args)

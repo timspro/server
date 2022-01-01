@@ -13,13 +13,15 @@ The CLI of neptune-server is a wrapper around Nodemon
 ### Options
 
 ```js
-{ name: "headers", alias: "h", type: JSON.parse },
-{ name: "port", alias: "p", type: Number },
-{ name: "forbid", type: String },
-{ name: "log", type: Boolean },
-{ name: "static", type: resolve },
-{ name: "routes", type: resolve, defaultOption: true },
-{ name: "postSize", type: String },
+const args = commandLineArgs([
+  { name: "headers", alias: "h", type: JSON.parse },
+  { name: "port", alias: "p", type: Number },
+  { name: "forbid", type: String },
+  { name: "log", type: Boolean },
+  { name: "frontend", type: resolve },
+  { name: "routes", type: resolve, defaultOption: true },
+  { name: "postSize", type: String },
+])
 ```
 
 ### Typical Usage
