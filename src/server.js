@@ -78,8 +78,8 @@ export function server({
   port,
   done,
   log,
-  routes = ".",
-  static: staticDir,
+  routes,
+  frontend,
   forbid = "^_.*",
   postSize,
 }) {
@@ -95,8 +95,8 @@ export function server({
 
   app.use(bodyParser.json({ limit: postSize }))
 
-  if (staticDir) {
-    app.use(express.static(staticDir, { redirect: false }))
+  if (frontend) {
+    app.use(express.static(frontend, { redirect: false }))
   }
 
   // dynamically route other requests to "routes" folder

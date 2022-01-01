@@ -2,6 +2,7 @@
 
 # set -x
 
+# get the directory of this file (resolving links via "readlink")
 # https://stackoverflow.com/questions/59895/how-can-i-get-the-source-directory-of-a-bash-script-from-within-the-script-itsel
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
@@ -11,6 +12,7 @@ while [ -h "$SOURCE" ]; do
 done
 SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
+# get the next arg after --routes arg
 ARG_ARRAY=("$@") 
 for INDEX in "${!ARG_ARRAY[@]}"; do
   if [ "${ARG_ARRAY[$INDEX]}" = "--routes" ]; then 
