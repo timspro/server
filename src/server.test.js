@@ -14,7 +14,7 @@ beforeAll((done) => {
     port,
     done,
     forbid: "helper",
-    static: `test/static`,
+    frontend: `test/static`,
   })
 })
 afterAll((done) => {

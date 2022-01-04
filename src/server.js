@@ -80,6 +80,7 @@ export function server({
   log,
   routes,
   frontend,
+  host = "localhost",
   forbid = "^_.*",
   postSize,
 }) {
@@ -111,7 +112,7 @@ export function server({
     sendError(response, 500, error.message)
   })
 
-  const result = app.listen(port, () => {
+  const result = app.listen(port, host, () => {
     if (log && !port) {
       // eslint-disable-next-line no-console
       console.log(`server listening on port: ${result.address().port}`)
