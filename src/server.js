@@ -108,7 +108,7 @@ export function server({
   // send errors as json
   // eslint-disable-next-line no-unused-vars
   app.use((error, request, response, next) => {
-    console.error(error)
+    console.error(error.stack)
     sendError(response, 500, error.message)
   })
 
