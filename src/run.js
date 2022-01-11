@@ -11,6 +11,7 @@ const args = commandLineArgs([
   { name: "routes", type: resolve, defaultOption: true },
   { name: "postSize", type: String },
   { name: "host", type: String },
+  { name: "expressRoute", type: Boolean },
 ])
 
 // eslint-disable-next-line no-console

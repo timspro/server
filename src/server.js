@@ -31,7 +31,7 @@ async function route(dir, path, args, forbid) {
   const method = parts.pop()
   const relativeFilePath = parts.join("/")
   const module = await import(resolve(dir, `${relativeFilePath}.js`))
-  return module[method](args)
+  return module[method](...args)
 }
 
 function sendError(response, status, message) {
@@ -42,14 +42,16 @@ function sendError(response, status, message) {
   })
 }
 
-function handleRequest(dir, forbid) {
+function handleRequest(dir, { forbid, expressRoute }) {
   return async (request, response) => {
     const { query, body } = request
     try {
       const path = request.path.slice(1)
-      const args = { ...body, ...query }
+      const args = expressRoute ? [request, response] : [{ ...body, ...query }]
       const result = await route(dir, path, args, forbid)
-      response.json({ success: true, code: 200, result })
+      if (!expressRoute) {
+        response.json({ success: true, code: 200, result })
+      }
     } catch (error) {
       if (error instanceof PathError) {
         sendError(response, 400, error.message)
@@ -82,6 +84,7 @@ export function server({
   frontend,
   host = "localhost",
   forbid = "^_.*",
+  expressRoute = false,
   postSize,
 }) {
   const app = express()
@@ -102,7 +105,7 @@ export function server({
 
   // dynamically route other requests to "routes" folder
   if (routes) {
-    app.use(handleRequest(routes, forbid))
+    app.use(handleRequest(routes, { forbid, expressRoute }))
   }
 
   // send errors as json
