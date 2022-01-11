@@ -15,6 +15,6 @@ const args = commandLineArgs([
 ])
 
 // eslint-disable-next-line no-console
-console.log("starting server with: ", args)
+console.log(new Date().toISOString(), "starting server with:", args)
 
 server(args)
