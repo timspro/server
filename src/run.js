@@ -12,6 +12,7 @@ const args = commandLineArgs([
   { name: "postSize", type: String },
   { name: "host", type: String },
   { name: "expressRoute", type: Boolean },
+  { name: "spa", type: String },
 ])
 
 // eslint-disable-next-line no-console

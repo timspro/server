@@ -82,6 +82,7 @@ export function server({
   log,
   routes,
   frontend,
+  spa,
   host = "localhost",
   forbid = "^_.*",
   expressRoute = false,
@@ -101,6 +102,11 @@ export function server({
 
   if (frontend) {
     app.use(express.static(frontend, { redirect: false }))
+    if (spa) {
+      app.use((request, response) => {
+        response.sendFile(spa)
+      })
+    }
   }
 
   // dynamically route other requests to "routes" folder
