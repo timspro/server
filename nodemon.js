@@ -1,24 +1,26 @@
 #!/usr/bin/env node
 
 import nodemon from "nodemon"
+import { parse } from "nodemon/lib/cli/index.js"
 import { dirname } from "path"
 import { fileURLToPath } from "url"
 
-const args = process.argv.slice(2)
+const argv = [...process.argv]
 
 // automatically watch the routes directory if specified
-for (let i = 0; i < args.length; i++) {
-  if (args[i] === "--routes") {
-    args.push("--watch")
-    args.push(args[i + 1])
+for (let i = 2; i < argv.length; i++) {
+  if (argv[i] === "--routes") {
+    argv.push("--watch")
+    argv.push(argv[i + 1])
     break
   }
 }
 
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const script = `${scriptDir}/src/run.js`
+argv.splice(2, 0, script)
 
-nodemon({ script, args })
+nodemon(parse(argv))
 
 nodemon
   .on("quit", () => {
