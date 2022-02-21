@@ -7,10 +7,10 @@ import { fileURLToPath } from "url"
 const args = process.argv.slice(2)
 
 // automatically watch the routes directory if specified
-const watched = []
 for (let i = 0; i < args.length; i++) {
   if (args[i] === "--routes") {
-    watched.push(`--watch ${args[i + 1]}`)
+    args.push("--watch")
+    args.push(args[i + 1])
     break
   }
 }
@@ -18,7 +18,7 @@ for (let i = 0; i < args.length; i++) {
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const script = `${scriptDir}/src/run.js`
 
-nodemon({ script, args: [...watched, ...args] })
+nodemon({ script, args })
 
 nodemon
   .on("quit", () => {

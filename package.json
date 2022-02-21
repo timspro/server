@@ -1,6 +1,6 @@
 {
   "name": "@tim-code/server",
-  "version": "0.8.4",
+  "version": "0.8.7",
   "description": "",
   "main": "./src/server.js",
   "type": "module",
