@@ -1,11 +1,11 @@
 {
   "name": "@tim-code/server",
-  "version": "0.7.12",
+  "version": "0.8.0",
   "description": "",
   "main": "./src/server.js",
   "type": "module",
   "bin": {
-    "neptune-server": "./run.sh"
+    "neptune-server": "./nodemon.js"
   },
   "scripts": {
     "test": "node --no-warnings --experimental-vm-modules node_modules/.bin/jest",
