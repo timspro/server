@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "node --no-warnings --experimental-vm-modules node_modules/.bin/jest",
-    "start": "./run.sh"
+    "start": "./nodemon.js"
   },
   "author": "",
   "license": "UNLICENSED",
