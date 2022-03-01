@@ -86,7 +86,9 @@ export function server({
   host = "localhost",
   forbid = "^_.*",
   expressRoute = false,
-  postSize,
+  postSize = undefined,
+  routesUrlPath = "*",
+  frontendUrlPath = "*",
 }) {
   const app = express()
 
@@ -101,9 +103,9 @@ export function server({
   app.use(bodyParser.json({ limit: postSize }))
 
   if (frontend) {
-    app.use(express.static(frontend, { redirect: false }))
+    app.use(frontendUrlPath, express.static(frontend, { redirect: false }))
     if (spa) {
-      app.use((request, response) => {
+      app.use(frontendUrlPath, (request, response) => {
         response.sendFile(spa)
       })
     }
@@ -111,7 +113,7 @@ export function server({
 
   // dynamically route other requests to "routes" folder
   if (routes) {
-    app.use(handleRequest(routes, { forbid, expressRoute }))
+    app.use(routesUrlPath, handleRequest(routes, { forbid, expressRoute }))
   }
 
   // send errors as json
