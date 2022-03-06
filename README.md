@@ -1,14 +1,14 @@
 # server
 
-A wrapper around Express
-
 ```
 npm install @tim-code/server
 ```
 
+A wrapper around Express that exposes commonly used functionality to a CLI
+
 ## CLI
 
-The CLI of server is a wrapper around Nodemon
+The CLI of `server` is a wrapper around Nodemon
 
 ### Options
 
