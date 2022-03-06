@@ -15,6 +15,9 @@ beforeAll((done) => {
     done,
     forbid: "helper",
     frontend: `test/static`,
+    headers: {
+      "set-cookie": ["a=1", "b=2"],
+    },
   })
 })
 afterAll((done) => {
@@ -74,3 +77,9 @@ autotest(request, { name: "post same" })(`${host}/subdir/ping/same`, {
 
 autotest(request, { name: "index.html" })(`${host}/index.html`, { raw: true })("test\n")
 autotest(request, { name: "/" })(host, { raw: true })("test\n")
+
+async function testHeaders() {
+  const response = await fetch(`${host}/helper/method`)
+  return response.headers.raw()
+}
+autotest(testHeaders)()(expect.objectContaining({ "set-cookie": ["a=1", "b=2"] }))
