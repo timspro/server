@@ -3,12 +3,12 @@
 A wrapper around Express
 
 ```
-npm install neptune-server
+npm install @tim-code/server
 ```
 
 ## CLI
 
-The CLI of neptune-server is a wrapper around Nodemon
+The CLI of server is a wrapper around Nodemon
 
 ### Options
 
@@ -21,13 +21,16 @@ const args = commandLineArgs([
   { name: "frontend", type: resolve },
   { name: "routes", type: resolve, defaultOption: true },
   { name: "postSize", type: String },
+  { name: "host", type: String },
+  { name: "expressRoute", type: Boolean },
+  { name: "spa", type: String },
 ])
 ```
 
 ### Typical Usage
 
 ```
-neptune-server --log --routes backend --watch package-lock.json
+server --log --routes backend --watch package-lock.json
 ```
 
 Note that `--routes` folder is automatically watched if specified.
@@ -39,9 +42,9 @@ By default, folders starting with `_` cannot be routed to due to the default val
 ### Serve Folder
 
 ```
-neptune-server --frontend dist --port 4000
+server --frontend dist --port 4000
 ```
 
 ## Environment Variables
 
-neptune-server does not make use of environment variables directly but code executed via the routes folder can make use of them.
+server does not make use of environment variables directly but code executed via the routes folder can make use of them.
