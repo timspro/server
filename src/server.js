@@ -3,6 +3,7 @@ import express from "express"
 import morgan from "morgan"
 import { resolve } from "path"
 import sanitize from "sanitize-filename"
+import { pathToFileURL } from "url"
 
 class PathError extends Error {}
 
@@ -30,7 +31,7 @@ async function route(dir, path, args, forbid) {
   const parts = path.split("/")
   const method = parts.pop()
   const relativeFilePath = parts.join("/")
-  const module = await import(resolve(dir, `${relativeFilePath}.js`))
+  const module = await import(pathToFileURL(resolve(dir, `${relativeFilePath}.js`)))
   return module[method](...args)
 }
 
