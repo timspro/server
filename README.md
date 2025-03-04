@@ -15,6 +15,7 @@ The CLI of `server` is a wrapper around Nodemon
 ```js
 const args = commandLineArgs([
   { name: "headers", alias: "h", type: JSON.parse },
+  { name: "headersPath", type: resolve },
   { name: "port", alias: "p", type: Number },
   { name: "forbid", type: String },
   { name: "log", type: Boolean },
