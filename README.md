@@ -38,7 +38,7 @@ Note that `--routes` folder is automatically watched if specified.
 
 If no `--port` is specified, then Node will randomly assign one. If `--log` is specified, a message including the port will be printed to the console in addition to the normal output logged.
 
-By default, folders starting with `_` cannot be routed to due to the default value of `--forbid`.
+By default, routes cannot contain "/" so subdirectories with the routes folder cannot be accessed. This can changed by specifying a different "forbid" regex string.
 
 ### Serve Folder
 

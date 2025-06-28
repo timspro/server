@@ -17,7 +17,6 @@ const args = commandLineArgs([
   { name: "spa", type: String },
 ])
 
-// eslint-disable-next-line no-console
 console.log(new Date().toISOString(), "starting server with:", args)
 
 if (args.headersPath) {

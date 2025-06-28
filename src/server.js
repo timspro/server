@@ -11,7 +11,13 @@ function validate(path, forbid) {
   if (!path) {
     throw new PathError(`route path is empty`)
   }
-  const matcher = new RegExp(forbid, "mu")
+  const matcher = new RegExp(forbid, "u")
+  if (forbid) {
+    const match = matcher.exec(path)
+    if (match) {
+      throw new PathError(`route path is forbidden at index ${match.index}`)
+    }
+  }
   const segments = path.split("/")
   for (const [index, segment] of segments.entries()) {
     if (!segment) {
@@ -19,9 +25,6 @@ function validate(path, forbid) {
     }
     if (segment !== sanitize(segment)) {
       throw new PathError(`route path segment at index ${index} is invalid`)
-    }
-    if (forbid && matcher.test(segment)) {
-      throw new PathError(`route path segment at index ${index} is forbidden`)
     }
   }
 }
@@ -85,7 +88,7 @@ export function server({
   frontend,
   spa,
   host = "localhost",
-  forbid = "^_.*",
+  forbid = "/",
   expressRoute = false,
   postSize,
 }) {
@@ -124,7 +127,6 @@ export function server({
 
   const result = app.listen(port, host, () => {
     if (log && !port) {
-      // eslint-disable-next-line no-console
       console.log(`server listening on port: ${result.address().port}`)
     }
     if (done) {
