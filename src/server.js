@@ -11,7 +11,7 @@ function validate(path, forbid) {
   if (!path) {
     throw new PathError(`route path is empty`)
   }
-  const matcher = new RegExp(forbid, "u")
+  const matcher = new RegExp(forbid, "su")
   if (forbid) {
     const match = matcher.exec(path)
     if (match) {
@@ -88,7 +88,7 @@ export function server({
   frontend,
   spa,
   host = "localhost",
-  forbid = "/",
+  forbid = "/.*/",
   expressRoute = false,
   postSize,
 }) {
