@@ -28,6 +28,8 @@ const args = commandLineArgs([
 ])
 ```
 
+Command line arguments for nodemon can also be used such as `--env-file=.env`.
+
 ### Typical Usage
 
 ```

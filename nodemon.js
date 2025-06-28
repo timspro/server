@@ -27,6 +27,5 @@ nodemon
     process.exit()
   })
   .on("log", (event) => {
-    // eslint-disable-next-line no-console
     console.log(event.colour)
   })
