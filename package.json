@@ -17,8 +17,7 @@
     "@tim-code/autotest": "^0.10.3",
     "@tim-code/eslint-config": "^2.0.3",
     "@tim-code/json-fetch": "^0.4.1",
-    "jest": "^30.2.0",
-    "node-fetch": "^3.3.2"
+    "jest": "^30.2.0"
   },
   "dependencies": {
     "body-parser": "^2.2.0",

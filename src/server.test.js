@@ -1,9 +1,8 @@
 import { autotest } from "@tim-code/autotest"
 import { requestFactory } from "@tim-code/json-fetch"
-import fetch from "node-fetch"
 import { server } from "./server.js"
 
-const request = requestFactory({ fetch, onError: ({ result }) => result })
+const request = requestFactory({ onError: ({ result }) => result })
 
 const port = 8089
 
@@ -78,8 +77,8 @@ autotest(request, { name: "post same" })(`${host}/subdir/ping/same`, {
 autotest(request, { name: "index.html" })(`${host}/index.html`, { raw: true })("test\n")
 autotest(request, { name: "/" })(host, { raw: true })("test\n")
 
-async function testHeaders() {
+async function testSetCookieHeader() {
   const response = await fetch(`${host}/helper/method`)
-  return response.headers.raw()
+  return response.headers.get("set-cookie")
 }
-autotest(testHeaders)()(expect.objectContaining({ "set-cookie": ["a=1", "b=2"] }))
+autotest(testSetCookieHeader)()("a=1, b=2")
