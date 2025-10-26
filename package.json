@@ -1,6 +1,6 @@
 {
   "name": "@tim-code/server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "./src/server.js",
   "type": "module",
@@ -15,25 +15,21 @@
   "license": "MIT",
   "devDependencies": {
     "@tim-code/autotest": "^0.10.3",
-    "@tim-code/eslint-config": "^1.1.1",
+    "@tim-code/eslint-config": "^2.0.3",
     "@tim-code/json-fetch": "^0.4.1",
-    "jest": "^27.4.5",
-    "node-fetch": "^3.1.0"
+    "jest": "^30.2.0",
+    "node-fetch": "^3.3.2"
   },
   "dependencies": {
-    "body-parser": "^1.19.1",
-    "command-line-args": "^5.2.0",
-    "express": "^5.0.0-alpha.8",
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.15",
+    "body-parser": "^2.2.0",
+    "command-line-args": "^6.0.1",
+    "express": "^5.1.0",
+    "morgan": "^1.10.1",
+    "nodemon": "^3.1.10",
     "sanitize-filename": "^1.6.3"
   },
   "jest": {
     "transform": {}
-  },
-  "eslintConfig": {
-    "extends": "@tim-code",
-    "root": true
   },
   "publishConfig": {
     "access": "public"
